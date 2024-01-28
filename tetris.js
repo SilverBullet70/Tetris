@@ -58,8 +58,28 @@ const Z_TETROMINO = [
 
 const TETROMINOES = [I_TETROMINO, O_TETROMINO, T_TETROMINO, J_TETROMINO, L_TETROMINO, S_TETROMINO, Z_TETROMINO];
 
+const STARTING_POSITION = 4;
+var currentPosition = STARTING_POSITION;
+var currentTetromino = getRandomTetromino();
+var currentRotation = getRandomRotation();
+
+function getRandomTetromino() {
+    return Math.floor(Math.random() * 7);
+}
+
+function getRandomRotation() {
+    return Math.floor(Math.random() * 4);
+}
+
+var squares = [];
+
+function startNewObject() {
+    draw(squares, currentTetromino, currentRotation, currentPosition);
+    moveDown(squares, currentTetromino, currentRotation, currentPosition);
+}
+
 $(document).ready(function () {
-    var squares = [];
+
     for (var i = 0; i < CANVAS_HEIGHT * CANVAS_WIDTH; i++) {
         var block = $("<div></div>");
         if (i >= CANVAS_WIDTH * (CANVAS_HEIGHT - 1)) {
@@ -69,60 +89,52 @@ $(document).ready(function () {
         squares.push(block);
     }
 
-    var position = 4;
-    var tetromino = Math.floor(Math.random() * 7);
-    var rot = Math.floor(Math.random() * 4);
-   
 
-        draw(squares, tetromino, rot, position);
-    
-            moveDown(squares, tetromino, rot, position);
-        
+    startNewObject();
 
 
-        console.log("tetromino: " + tetromino);
-        console.log("rot: " + rot);
-        console.log("position: " + position);
-
-        // position += CANVAS_WIDTH;
-
-
-   // }
 });
 
 function isEnd(squares, tetromino, rot, position, interval) {
-    TETROMINOES[tetromino][rot].forEach(index => {
-      
-        if (squares[index + position + CANVAS_WIDTH].hasClass("fixed")) {
-                freeze(squares, tetromino, rot, position, interval);
-                clearInterval(interval);
-                return;
+    for (var i = 0; i < TETROMINOES[tetromino][rot].length; i++) {
+        if (squares[i + position + CANVAS_WIDTH].hasClass("fixed")) {
+            freeze(squares, tetromino, rot, position, interval);
+            //moveDown(squares, Math.floor(Math.random * 7), Math.floor(Math.random * 4), 4);
+            // currentPosition = STARTING_POSITION;
+            // currentTetromino = getRandomTetromino();
+            // currentRotation = getRandomRotation();
+            console.log("end");
+            return () => {
+                startNewObject();
+            }
         }
-      
-    });
-
+    }
+    console.log("not end in is end");
+    return () => {console.log("not end")};
 }
 
 function freeze(squares, tetromino, rot, position, interval) {
     clearInterval(interval);
     TETROMINOES[tetromino][rot].forEach(index => {
-        squares[index + position+ CANVAS_WIDTH].addClass("fixed");
+        squares[index + position + CANVAS_WIDTH].addClass("fixed");
     });
 
 }
 
 function moveDown(squares, tetromino, rot, position) {
+    var endFunc = () => {};
     var interval = setInterval(
         function () {
             //console.log(isEnd(squares, tetromino, rot, position));
-            isEnd(squares, tetromino, rot, position, interval)
+            endFunc = isEnd(squares, tetromino, rot, position, interval)
             undraw(squares, tetromino, rot, position);
             position += CANVAS_WIDTH;
             draw(squares, tetromino, rot, position);
+            console.log(endFunc);
+        endFunc();
 
         }, 1000);
-
-    console.log(interval);
+        
 
 }
 
