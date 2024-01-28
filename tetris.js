@@ -72,21 +72,31 @@ function getRandomRotation() {
 }
 
 var squares = [];
-
+var interval = 0;
 function startNewObject() {
     draw(squares, currentTetromino, currentRotation, currentPosition);
-    moveDown(squares, currentTetromino, currentRotation, currentPosition);
+    interval = setInterval(
+        function () {
+            moveDown(squares, currentTetromino, currentRotation, currentPosition);
+        }, 500);
 }
 
 $(document).ready(function () {
 
     for (var i = 0; i < CANVAS_HEIGHT * CANVAS_WIDTH; i++) {
         var block = $("<div></div>");
-        if (i >= CANVAS_WIDTH * (CANVAS_HEIGHT - 1)) {
-            block.addClass("fixed");
-        }
+        // if (i >= CANVAS_WIDTH * (CANVAS_HEIGHT - 1)) {
+        //     block.addClass("fixed");
+        // }
         $("#tetris").append(block);
         squares.push(block);
+    }
+    for (var i = 0; i < CANVAS_WIDTH; i++) {
+        var block = $("<div></div>");
+        block.addClass("fixed");
+        $("#tetris").append(block);
+        squares.push(block);
+
     }
 
 
@@ -95,58 +105,68 @@ $(document).ready(function () {
 
 });
 
-function isEnd(squares, tetromino, rot, position, interval) {
-    for (var i = 0; i < TETROMINOES[tetromino][rot].length; i++) {
-        if (squares[i + position + CANVAS_WIDTH].hasClass("fixed")) {
-            freeze(squares, tetromino, rot, position, interval);
-            //moveDown(squares, Math.floor(Math.random * 7), Math.floor(Math.random * 4), 4);
-            // currentPosition = STARTING_POSITION;
-            // currentTetromino = getRandomTetromino();
-            // currentRotation = getRandomRotation();
-            console.log("end");
-            return () => {
-                startNewObject();
-            }
+function isNextFixed() {
+    var flag = false;  
+    TETROMINOES[currentTetromino][currentRotation].forEach(index => {
+        if(squares[index + currentPosition + CANVAS_WIDTH].hasClass('fixed')){
+            flag = flag || true;
         }
-    }
-    console.log("not end in is end");
-    return () => {console.log("not end")};
-}
-
-function freeze(squares, tetromino, rot, position, interval) {
-    clearInterval(interval);
-    TETROMINOES[tetromino][rot].forEach(index => {
-        squares[index + position + CANVAS_WIDTH].addClass("fixed");
     });
+    return flag;
 
 }
 
-function moveDown(squares, tetromino, rot, position) {
-    var endFunc = () => {};
-    var interval = setInterval(
-        function () {
-            //console.log(isEnd(squares, tetromino, rot, position));
-            endFunc = isEnd(squares, tetromino, rot, position, interval)
-            undraw(squares, tetromino, rot, position);
-            position += CANVAS_WIDTH;
-            draw(squares, tetromino, rot, position);
-            console.log(endFunc);
-        endFunc();
-
-        }, 1000);
-        
-
+function isEnd() {
+    console.log("isEnd?");
+    
+       // console.log((i + currentPosition + CANVAS_WIDTH) +" vs " +  squares.length + ":" + (i + currentPosition));
+        // || (i + currentPosition + CANVAS_WIDTH) >= squares.length
+       if(isNextFixed()){
+              console.log("yes");
+              clearInterval(interval);
+              freeze();
+                return;
+       }
+    
+    // if(TETROMINOES[currentTetromino][currentRotation].some(index => {})){
+    //     freeze();
+        // currentPosition = STARTING_POSITION;
+        // currentTetromino = getRandomTetromino();
+        // currentRotation = getRandomRotation();
+    //      console.log("yes");
+    // } 
+console.log("no");
 }
 
-
-function draw(squares, tetromino, rot, position) {
-    TETROMINOES[tetromino][rot].forEach(index => {
-        squares[index + position].addClass("block");
+function freeze() {
+    TETROMINOES[currentTetromino][currentRotation].forEach(index => {
+        console.log("in freeze");
+        console.log(index + currentPosition);
+        squares[index + currentPosition].addClass("fixed");
     });
 }
 
-function undraw(squares, tetromino, rot, position) {
-    TETROMINOES[tetromino][rot].forEach(index => {
-        squares[index + position].removeClass("block");
+function moveDown() {
+    // var endFunc = () => {};
+
+    //console.log(isEnd(squares, tetromino, rot, position));
+
+    undraw();
+    currentPosition += CANVAS_WIDTH;
+    draw();
+    isEnd();
+
+}
+
+
+function draw() {
+    TETROMINOES[currentTetromino][currentRotation].forEach(index => {
+        squares[index + currentPosition].addClass("block");
+    });
+}
+
+function undraw() {
+    TETROMINOES[currentTetromino][currentRotation].forEach(index => {
+        squares[index + currentPosition].removeClass("block");
     });
 }
