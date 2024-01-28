@@ -102,13 +102,50 @@ $(document).ready(function () {
 
     startNewObject();
 
+    $(document).keydown(function (e) {
+        switch (e.which) {
+            case 37: // left
+                if (!isLeftFixed()) {
+
+                    undraw();
+                    currentPosition -= 1;
+                    draw();
+                }
+                break;
+
+            case 38: // up
+                undraw();
+                currentRotation = (currentRotation + 1) % 4;
+                draw();
+                break;
+
+            case 39: // right
+                if (!isRightFixed()) {
+                    undraw();
+                    currentPosition += 1;
+                    draw();
+                }
+                break;
+
+            case 40: // down
+                undraw();
+                currentPosition += CANVAS_WIDTH;
+                draw();
+                isEnd();
+                break;
+
+            default:
+                return; // exit this handler for other keys
+        }
+        e.preventDefault(); // prevent the default action (scroll / move caret)
+    });
 
 });
 
 function isNextFixed() {
-    var flag = false;  
+    var flag = false;
     TETROMINOES[currentTetromino][currentRotation].forEach(index => {
-        if(squares[index + currentPosition + CANVAS_WIDTH].hasClass('fixed')){
+        if (squares[index + currentPosition + CANVAS_WIDTH].hasClass('fixed')) {
             flag = flag || true;
         }
     });
@@ -116,26 +153,59 @@ function isNextFixed() {
 
 }
 
+function isRightFixed() {
+    var flag = false;
+    let max = 0;
+    TETROMINOES[currentTetromino][currentRotation].forEach(index => {
+        if (index % CANVAS_WIDTH > max) {
+            max = index % CANVAS_WIDTH;
+        }
+    });
+
+    if (squares[max].hasClass('fixed')) {
+        flag = true;
+    }
+    return flag;
+
+}
+
+function isLeftFixed() {
+    var flag = false;
+    let min = CANVAS_WIDTH;
+    TETROMINOES[currentTetromino][currentRotation].forEach(index => {
+        if (index % CANVAS_WIDTH < min) {
+            min = index % CANVAS_WIDTH;
+        }
+    });
+
+    if (squares[min].hasClass('fixed')) {
+        flag = true;
+    }
+    return flag;
+
+}
+
 function isEnd() {
     console.log("isEnd?");
-    
-       // console.log((i + currentPosition + CANVAS_WIDTH) +" vs " +  squares.length + ":" + (i + currentPosition));
-        // || (i + currentPosition + CANVAS_WIDTH) >= squares.length
-       if(isNextFixed()){
-              console.log("yes");
-              clearInterval(interval);
-              freeze();
-                return;
-       }
-    
+
+    // console.log((i + currentPosition + CANVAS_WIDTH) +" vs " +  squares.length + ":" + (i + currentPosition));
+    // || (i + currentPosition + CANVAS_WIDTH) >= squares.length
+    if (isNextFixed()) {
+        console.log("yes");
+        //clearInterval(interval);
+        freeze();
+        currentPosition = STARTING_POSITION;
+        currentTetromino = getRandomTetromino();
+        currentRotation = getRandomRotation();
+        return;
+    }
+
     // if(TETROMINOES[currentTetromino][currentRotation].some(index => {})){
     //     freeze();
-        // currentPosition = STARTING_POSITION;
-        // currentTetromino = getRandomTetromino();
-        // currentRotation = getRandomRotation();
+
     //      console.log("yes");
     // } 
-console.log("no");
+    console.log("no");
 }
 
 function freeze() {
