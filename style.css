@@ -1,6 +1,6 @@
 #tetris{
-    width: 200px;
-    height: 400px;
+    width: 240px;
+    height: 420px;
     background-color: aqua;
     display: flex;
     flex-wrap: wrap;
@@ -21,4 +21,8 @@
 
 .fixed{
     background-color: #666;
+}
+
+.border{
+    background-color: #00f;
 }

@@ -3,8 +3,8 @@
 // Your JavaScript code goes here
 
 var canvas = document.getElementById("tetris");
-const CANVAS_WIDTH = 10;
-const CANVAS_HEIGHT = 2 * CANVAS_WIDTH;
+const CANVAS_WIDTH = 12;
+const CANVAS_HEIGHT = 2 * (CANVAS_WIDTH - 2);
 
 const I_TETROMINO = [
     [0, 1, 2, 3],
@@ -84,16 +84,29 @@ function startNewObject() {
 $(document).ready(function () {
 
     for (var i = 0; i < CANVAS_HEIGHT * CANVAS_WIDTH; i++) {
+        if (i % CANVAS_WIDTH == 0 || i % CANVAS_WIDTH == CANVAS_WIDTH - 1) {
+            var fixed = $("<div></div>");
+            fixed.addClass("border");
+            $("#tetris").append(fixed);
+            squares.push(fixed);
+            continue;
+        }
+
+
         var block = $("<div></div>");
         // if (i >= CANVAS_WIDTH * (CANVAS_HEIGHT - 1)) {
         //     block.addClass("fixed");
         // }
         $("#tetris").append(block);
         squares.push(block);
+
+
     }
+
     for (var i = 0; i < CANVAS_WIDTH; i++) {
         var block = $("<div></div>");
         block.addClass("fixed");
+        fixed.addClass("border");
         $("#tetris").append(block);
         squares.push(block);
 
@@ -106,7 +119,7 @@ $(document).ready(function () {
         switch (e.which) {
             case 37: // left
                 if (!isLeftFixed()) {
-
+                    console.log("left");
                     undraw();
                     currentPosition -= 1;
                     draw();
@@ -162,7 +175,7 @@ function isRightFixed() {
         }
     });
 
-    if (squares[max].hasClass('fixed')) {
+    if (squares[max + currentPosition + 1].hasClass('border') || squares[max + currentPosition + 1].hasClass('fixed')) {
         flag = true;
     }
     return flag;
@@ -171,15 +184,16 @@ function isRightFixed() {
 
 function isLeftFixed() {
     var flag = false;
-    let min = CANVAS_WIDTH;
+    let min = TETROMINOES[currentTetromino][currentRotation][0];
     TETROMINOES[currentTetromino][currentRotation].forEach(index => {
         if (index % CANVAS_WIDTH < min) {
             min = index % CANVAS_WIDTH;
         }
     });
 
-    if (squares[min].hasClass('fixed')) {
+    if (squares[min + currentPosition - 1].hasClass('border') || squares[min + currentPosition - 1].hasClass('fixed')) {
         flag = true;
+        console.log("left fixed");
     }
     return flag;
 
@@ -188,8 +202,7 @@ function isLeftFixed() {
 function isEnd() {
     console.log("isEnd?");
 
-    // console.log((i + currentPosition + CANVAS_WIDTH) +" vs " +  squares.length + ":" + (i + currentPosition));
-    // || (i + currentPosition + CANVAS_WIDTH) >= squares.length
+
     if (isNextFixed()) {
         console.log("yes");
         //clearInterval(interval);
@@ -197,14 +210,13 @@ function isEnd() {
         currentPosition = STARTING_POSITION;
         currentTetromino = getRandomTetromino();
         currentRotation = getRandomRotation();
+        if (squares[currentPosition].hasClass("fixed") || squares[currentPosition + CANVAS_WIDTH].hasClass("fixed")){
+            clearInterval(interval);
+        }
         return;
     }
 
-    // if(TETROMINOES[currentTetromino][currentRotation].some(index => {})){
-    //     freeze();
-
-    //      console.log("yes");
-    // } 
+  
     console.log("no");
 }
 
