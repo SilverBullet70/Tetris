@@ -1,7 +1,7 @@
 #tetris{
     width: 240px;
     height: 420px;
-    background-color: aqua;
+    background-color: whitesmoke;
     display: flex;
     flex-wrap: wrap;
 }
@@ -19,10 +19,65 @@
 
 }
 
-.fixed{
-    background-color: #666;
-}
-
 .border{
     background-color: #00f;
 }
+
+.fixed{
+    filter: brightness(70%);
+}
+
+main{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#next-tetris{
+    width: 100px;
+    height: 100px;
+    background-color: whitesmoke;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#next-tetris div{
+    width: 20px;
+    height: 20px;
+}
+
+.moveButtons{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: center;
+    grid-template-rows: auto auto;
+    gap: 10px;
+}
+
+
+.moveButtons button{
+   background-color: transparent;
+    color: #87d76f;
+    border: none;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+.moveButtons button:hover{
+    text-shadow: 0px 2px 3px rgb(0, 0, 0);
+  -webkit-background-clip: text;
+     -moz-background-clip: text;
+          background-clip: text;
+ }
+
+ .moveButtons button:active{
+    text-shadow: none;
+ }
+
+#pause-button, #start-button{
+    color: #87d76f;
+    border: none;
+    font-size: 50px;
+    cursor: pointer;
+}
+

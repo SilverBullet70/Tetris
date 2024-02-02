@@ -73,13 +73,43 @@ function getRandomRotation() {
 
 var squares = [];
 var interval = 0;
-function startNewObject() {
+function startMovement() {
     draw(squares, currentTetromino, currentRotation, currentPosition);
     interval = setInterval(
         function () {
             moveDown(squares, currentTetromino, currentRotation, currentPosition);
         }, 500);
 }
+
+function stopMovement() {
+    clearInterval(interval);
+}
+
+var next = getRandomTetromino();
+
+function updateNext() {
+    next = getRandomTetromino();
+    nextSquares.forEach((i) => {
+        i.removeClass("block");
+    });
+    TETROMINOES[next][currentRotation].forEach((i) => {
+
+        i = Math.floor(i / CANVAS_WIDTH) * NEXT_CANVAS_WIDTH + (i % CANVAS_WIDTH);
+        nextSquares[i + 2].addClass("block");
+    });
+
+}
+
+const COLORES = ["red", "blue", "green", "yellow", "purple", "orange", "cyan"];
+
+function addColor(block) {
+
+    TETROMINOES[block][currentRotation].forEach(index => {
+        squares[index + currentPosition].css("background-color", COLORES[currentTetromino]);
+    });
+}
+const NEXT_CANVAS_WIDTH = 5;
+var nextSquares = new Array();
 
 $(document).ready(function () {
 
@@ -94,9 +124,6 @@ $(document).ready(function () {
 
 
         var block = $("<div></div>");
-        // if (i >= CANVAS_WIDTH * (CANVAS_HEIGHT - 1)) {
-        //     block.addClass("fixed");
-        // }
         $("#tetris").append(block);
         squares.push(block);
 
@@ -106,45 +133,65 @@ $(document).ready(function () {
     for (var i = 0; i < CANVAS_WIDTH; i++) {
         var block = $("<div></div>");
         block.addClass("fixed");
-        fixed.addClass("border");
+        block.addClass("border");
         $("#tetris").append(block);
         squares.push(block);
 
     }
 
+    for (var i = 0; i < NEXT_CANVAS_WIDTH * NEXT_CANVAS_WIDTH; i++) {
+        var block = $("<div></div>");
+        nextSquares.push(block);
+        $("#next-tetris").append(block);
+    }
 
-    startNewObject();
+
+
+    startMovement();
+    updateNext();
+
+    $("#start-button").click(function () {
+        startMovement();
+    });
+
+    $("#pause-button").click(function () {
+        stopMovement();
+    });
+
+
+    $("#up-button").click(function () {
+        changeRotation();
+    });
+
+    $("#left-button").click(function () {
+        moveLeft();
+    });
+
+    $("#right-button").click(function () {
+        moveRight();
+    });
+
+    $("#down-button").click(function () {
+        moveDown();
+    });
+
 
     $(document).keydown(function (e) {
         switch (e.which) {
             case 37: // left
-                if (!isLeftFixed()) {
-                    console.log("left");
-                    undraw();
-                    currentPosition -= 1;
-                    draw();
-                }
+                moveLeft();
                 break;
 
             case 38: // up
-                undraw();
-                currentRotation = (currentRotation + 1) % 4;
-                draw();
+                changeRotation();
                 break;
 
             case 39: // right
-                if (!isRightFixed()) {
-                    undraw();
-                    currentPosition += 1;
-                    draw();
-                }
+                moveRight();
                 break;
 
             case 40: // down
-                undraw();
-                currentPosition += CANVAS_WIDTH;
-                draw();
-                isEnd();
+                moveDown();
                 break;
 
             default:
@@ -154,6 +201,33 @@ $(document).ready(function () {
     });
 
 });
+
+function moveLeft() {
+    if (!isLeftFixed()) {
+        console.log("left");
+        undraw();
+        currentPosition -= 1;
+        draw();
+        if (squares[currentPosition].hasClass("fixed")) {
+            currentPosition += 1;
+        }
+    }
+
+}
+
+function moveRight() {
+    if (!isRightFixed()) {
+        undraw();
+        currentPosition += 1;
+        draw();
+    }
+}
+
+function changeRotation() {
+    undraw();
+    currentRotation = (currentRotation + 1) % 4;
+    draw();
+}
 
 function isNextFixed() {
     var flag = false;
@@ -208,22 +282,23 @@ function isEnd() {
         //clearInterval(interval);
         freeze();
         currentPosition = STARTING_POSITION;
-        currentTetromino = getRandomTetromino();
         currentRotation = getRandomRotation();
-        if (squares[currentPosition].hasClass("fixed") || squares[currentPosition + CANVAS_WIDTH].hasClass("fixed")){
+        currentTetromino = next;
+        updateNext();
+        addColor(currentTetromino);
+        if (squares[currentPosition].hasClass("fixed") || squares[currentPosition + CANVAS_WIDTH].hasClass("fixed")) {
             clearInterval(interval);
         }
+        draw();
         return;
     }
 
-  
+
     console.log("no");
 }
 
 function freeze() {
     TETROMINOES[currentTetromino][currentRotation].forEach(index => {
-        console.log("in freeze");
-        console.log(index + currentPosition);
         squares[index + currentPosition].addClass("fixed");
     });
 }
@@ -245,10 +320,21 @@ function draw() {
     TETROMINOES[currentTetromino][currentRotation].forEach(index => {
         squares[index + currentPosition].addClass("block");
     });
+    addColor(currentTetromino);
+
 }
 
 function undraw() {
     TETROMINOES[currentTetromino][currentRotation].forEach(index => {
         squares[index + currentPosition].removeClass("block");
+    });
+
+    removeColor(currentTetromino);
+}
+
+function removeColor(block) {
+
+    TETROMINOES[block][currentRotation].forEach(index => {
+        squares[index + currentPosition].css("background-color", "transparent");
     });
 }
