@@ -208,11 +208,11 @@ function moveLeft() {
         undraw();
         currentPosition -= 1;
         draw();
-        if (squares[currentPosition].hasClass("fixed")) {
-            currentPosition += 1;
-        }
-    }
 
+    }
+    if (squares[currentPosition].hasClass("fixed")) {
+        currentPosition += 1;
+    }
 }
 
 function moveRight() {
@@ -220,12 +220,20 @@ function moveRight() {
         undraw();
         currentPosition += 1;
         draw();
+
+    }
+    if (squares[currentPosition].hasClass("fixed")) {
+        currentPosition -= 1;
     }
 }
 
 function changeRotation() {
     undraw();
-    currentRotation = (currentRotation + 1) % 4;
+    var nextRotation = (currentRotation + 1) % 4;
+    if (TETROMINOES[currentTetromino][nextRotation].some(index => squares[index + currentPosition].hasClass("border") || squares[index + currentPosition].hasClass("fixed"))) {
+        nextRotation = currentRotation;
+    }
+    currentRotation = nextRotation;
     draw();
 }
 
@@ -242,33 +250,24 @@ function isNextFixed() {
 
 function isRightFixed() {
     var flag = false;
-    let max = 0;
     TETROMINOES[currentTetromino][currentRotation].forEach(index => {
-        if (index % CANVAS_WIDTH > max) {
-            max = index % CANVAS_WIDTH;
+        if (squares[index + currentPosition + 1].hasClass('border') || squares[index + currentPosition + 1].hasClass('fixed')) {
+            flag = true;
         }
     });
 
-    if (squares[max + currentPosition + 1].hasClass('border') || squares[max + currentPosition + 1].hasClass('fixed')) {
-        flag = true;
-    }
+    
     return flag;
 
 }
 
 function isLeftFixed() {
     var flag = false;
-    let min = TETROMINOES[currentTetromino][currentRotation][0];
     TETROMINOES[currentTetromino][currentRotation].forEach(index => {
-        if (index % CANVAS_WIDTH < min) {
-            min = index % CANVAS_WIDTH;
+        if (squares[index + currentPosition - 1].hasClass('border') || squares[index + currentPosition - 1].hasClass('fixed')) {
+            flag = true;
         }
     });
-
-    if (squares[min + currentPosition - 1].hasClass('border') || squares[min + currentPosition - 1].hasClass('fixed')) {
-        flag = true;
-        console.log("left fixed");
-    }
     return flag;
 
 }
@@ -307,11 +306,11 @@ function moveDown() {
     // var endFunc = () => {};
 
     //console.log(isEnd(squares, tetromino, rot, position));
-
+    isEnd();
     undraw();
     currentPosition += CANVAS_WIDTH;
     draw();
-    isEnd();
+    
 
 }
 

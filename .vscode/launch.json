@@ -5,11 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "vscode-edge-devtools.debug",
+            "request": "launch",
+            "name": "Launch Edge in VS Code",
+            "url": "C:\\Users\\SilverBullet007\\vscode workspace\\FunWebProjects\\Tetris\\index.html",
+            "webRoot": "${workspaceFolder}"
+        }, 
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
             "url": "C:\\Users\\SilverBullet007\\vscode workspace\\FunWebProjects\\Tetris\\index.html",
             "webRoot": "${workspaceFolder}"
         }
+
     ]
 }
