@@ -1,39 +1,96 @@
-#tetris{
-    width: 240px;
-    height: 420px;
+
+#tetris {
+    width: 360px;
+    height: 630px;
     background-color: whitesmoke;
     display: flex;
     flex-wrap: wrap;
 }
 
-#tetris div{
-    width: 20px;
-    height: 20px;
+#tetris div {
+    width: 30px;
+    height: 30px;
+    /* background-image: url(grid.png); */
+
 
 }
 
-.block{
-    width: 20px;
-    height: 20px;
-    background-color: #000;
+.block {
+
 
 }
 
-.border{
-    background-color: #00f;
+.blue {
+   background-image: url(blueBlock.png);
 }
 
-.fixed{
-    filter: brightness(70%);
+.green {
+    background-image: url(greenBlock.png);
 }
 
-main{
+.orange {
+    background-image: url(orangeBlock.png);
+}
+
+.purple {
+    background-image: url(purpleBlock.png);
+}
+
+.red {
+    background-image: url(redBlock.png);
+}
+
+.cyan {
+    background-image: url(cyanBlock.png);
+}
+
+.yellow {
+    background-image: url(yellowBlock.png);
+}
+
+#score {
+    color: #87d76f;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-family: 'Raleway', sans-serif;
+    font-family: 'Satisfy', cursive;
+    font-family: 'Space Mono', monospace;
+}
+
+.fixed {
+    filter: brightness(90%);
+}
+
+.border {
+    filter: brightness(100%);
+    background-color: transparent;
+    background-image: url(border.png);
+    object-fit: contain;
+    background-position: center;
+}
+
+h1 {
+    color: #87d76f;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 5em;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-family: 'Raleway', sans-serif;
+    font-family: 'Satisfy', cursive;
+    font-family: 'Space Mono', monospace;
+}
+
+
+
+main {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-#next-tetris{
+#next-tetris {
     width: 100px;
     height: 100px;
     background-color: whitesmoke;
@@ -41,12 +98,12 @@ main{
     flex-wrap: wrap;
 }
 
-#next-tetris div{
+#next-tetris div {
     width: 20px;
     height: 20px;
 }
 
-.moveButtons{
+.moveButtons {
     display: grid;
     grid-template-columns: auto auto auto;
     justify-content: center;
@@ -55,29 +112,29 @@ main{
 }
 
 
-.moveButtons button{
-   background-color: transparent;
+.moveButtons button {
+    background-color: transparent;
     color: #87d76f;
     border: none;
     font-size: 50px;
     cursor: pointer;
 }
 
-.moveButtons button:hover{
+.moveButtons button:hover {
     text-shadow: 0px 2px 3px rgb(0, 0, 0);
-  -webkit-background-clip: text;
-     -moz-background-clip: text;
-          background-clip: text;
- }
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+}
 
- .moveButtons button:active{
+.moveButtons button:active {
     text-shadow: none;
- }
+}
 
-#pause-button, #start-button{
+#pause-button,
+#start-button {
     color: #87d76f;
     border: none;
     font-size: 50px;
     cursor: pointer;
 }
-

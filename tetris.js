@@ -5,6 +5,7 @@
 var canvas = document.getElementById("tetris");
 const CANVAS_WIDTH = 12;
 const CANVAS_HEIGHT = 2 * (CANVAS_WIDTH - 2);
+var score = 0;
 
 const I_TETROMINO = [
     [0, 1, 2, 3],
@@ -59,6 +60,7 @@ const Z_TETROMINO = [
 const TETROMINOES = [I_TETROMINO, O_TETROMINO, T_TETROMINO, J_TETROMINO, L_TETROMINO, S_TETROMINO, Z_TETROMINO];
 
 const STARTING_POSITION = 4;
+
 var currentPosition = STARTING_POSITION;
 var currentTetromino = getRandomTetromino();
 var currentRotation = getRandomRotation();
@@ -74,10 +76,10 @@ function getRandomRotation() {
 var squares = [];
 var interval = 0;
 function startMovement() {
-    draw(squares, currentTetromino, currentRotation, currentPosition);
+    draw();
     interval = setInterval(
         function () {
-            moveDown(squares, currentTetromino, currentRotation, currentPosition);
+            moveDown();
         }, 500);
 }
 
@@ -105,7 +107,7 @@ const COLORES = ["red", "blue", "green", "yellow", "purple", "orange", "cyan"];
 function addColor(block) {
 
     TETROMINOES[block][currentRotation].forEach(index => {
-        squares[index + currentPosition].css("background-color", COLORES[currentTetromino]);
+        squares[index + currentPosition].addClass(COLORES[currentTetromino]);
     });
 }
 const NEXT_CANVAS_WIDTH = 5;
@@ -272,6 +274,10 @@ function isLeftFixed() {
 
 }
 
+function updateScore() {
+    $("#score").text(score);
+}
+
 function isEnd() {
     console.log("isEnd?");
 
@@ -283,12 +289,14 @@ function isEnd() {
         currentPosition = STARTING_POSITION;
         currentRotation = getRandomRotation();
         currentTetromino = next;
+        score += 4 * 30;
+        updateScore();
         updateNext();
+        draw();
         addColor(currentTetromino);
         if (squares[currentPosition].hasClass("fixed") || squares[currentPosition + CANVAS_WIDTH].hasClass("fixed")) {
             clearInterval(interval);
         }
-        draw();
         return;
     }
 
@@ -334,6 +342,6 @@ function undraw() {
 function removeColor(block) {
 
     TETROMINOES[block][currentRotation].forEach(index => {
-        squares[index + currentPosition].css("background-color", "transparent");
+        squares[index + currentPosition].removeClass(COLORES[currentTetromino]);
     });
 }
