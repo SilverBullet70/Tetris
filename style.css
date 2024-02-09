@@ -1,3 +1,12 @@
+html {
+    background-image: url(Browser\ Games\ -\ Nealfun\ Games\ -\ 99\ Accuracy\ Background.png);
+    margin: 0;
+}
+
+body {
+    align-items: center;
+    margin: 0;
+}
 
 #tetris {
     width: 360px;
@@ -5,6 +14,7 @@
     background-color: whitesmoke;
     display: flex;
     flex-wrap: wrap;
+    box-shadow: 0 0 150px rgba(255, 255, 255, 0.732);
 }
 
 #tetris div {
@@ -17,11 +27,12 @@
 
 .block {
 
+    background-image: url(block.jpg);
 
 }
 
 .blue {
-   background-image: url(blueBlock.png);
+    background-image: url(blueBlock.png);
 }
 
 .green {
@@ -52,12 +63,9 @@
     color: #87d76f;
     font-size: 2em;
     text-align: center;
-    margin-top: 20px;
     font-family: 'Pixelify Sans', sans-serif;
-    font-family: 'Raleway', sans-serif;
-    font-family: 'Satisfy', cursive;
-    font-family: 'Space Mono', monospace;
 }
+
 
 .fixed {
     filter: brightness(90%);
@@ -72,38 +80,71 @@
 }
 
 h1 {
-    color: #87d76f;
+    color: #f6fd3f;
     text-align: center;
     margin-top: 20px;
     font-size: 5em;
     font-family: 'Pixelify Sans', sans-serif;
-    font-family: 'Raleway', sans-serif;
-    font-family: 'Satisfy', cursive;
-    font-family: 'Space Mono', monospace;
+    margin-bottom: 0%;
+    text-shadow: 3px 3px red;
+
+
 }
 
+h2 {
+    color: #f6fd3f;
+    position: absolute;
+    text-align: center;
+    top: 3%;
+    left: 10%;
+}
+
+.pauser{
+    display: flex;
+    position: absolute;
+    top: 15%;
+    left: 10%;
+}
+.container {
+    height: 100px;
+    width: 100px;
+    position: relative;
+}
+
+.centered {
+    width: 100px;
+    height: 100px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
 
 
 main {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    margin-left: calc(50% - 180px);
+    margin-top: 5%
 }
 
 #next-tetris {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     background-color: whitesmoke;
     display: flex;
     flex-wrap: wrap;
+    margin-left: 20px;
 }
 
 #next-tetris div {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
 }
 
 .moveButtons {
+    visibility: hidden;
     display: grid;
     grid-template-columns: auto auto auto;
     justify-content: center;
@@ -131,10 +172,20 @@ main {
     text-shadow: none;
 }
 
-#pause-button,
+.pause{
+    background-image: url(pause.png) ;
+}
+.play{
+    background-image: url(play.png) ;
+}
 #start-button {
-    color: #87d76f;
+    /* color: #87d76f;
     border: none;
-    font-size: 50px;
-    cursor: pointer;
+    cursor: pointer; */
+}
+
+@media (max-width: 500px) {
+    .moveButtons {
+        visibility: visible;
+    }
 }

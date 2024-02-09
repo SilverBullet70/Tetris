@@ -92,12 +92,12 @@ var next = getRandomTetromino();
 function updateNext() {
     next = getRandomTetromino();
     nextSquares.forEach((i) => {
-        i.removeClass("block");
+        i.removeClass(COLORES[currentTetromino]);
     });
     TETROMINOES[next][currentRotation].forEach((i) => {
 
-        i = Math.floor(i / CANVAS_WIDTH) * NEXT_CANVAS_WIDTH + (i % CANVAS_WIDTH);
-        nextSquares[i + 2].addClass("block");
+        i = Math.floor(i / CANVAS_WIDTH) * NEXT_CANVAS_WIDTH + (i % CANVAS_WIDTH) -1 + NEXT_CANVAS_WIDTH;
+        nextSquares[i + 2].addClass(COLORES[next]);
     });
 
 }
@@ -157,7 +157,15 @@ $(document).ready(function () {
     });
 
     $("#pause-button").click(function () {
-        stopMovement();
+        if ($("#pause-button").hasClass("play")) {
+            startMovement();
+        }
+        else if ($("#pause-button").hasClass("pause")){
+            stopMovement();
+        }
+        $("#pause-button").toggleClass("pause");
+        $("#pause-button").toggleClass("play");
+        
     });
 
 
