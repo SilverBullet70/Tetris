@@ -1,6 +1,7 @@
 html {
     background-image: url(Browser\ Games\ -\ Nealfun\ Games\ -\ 99\ Accuracy\ Background.png);
     margin: 0;
+    height: 100vh;
 }
 
 body {
@@ -28,43 +29,51 @@ body {
 .block {
 
     background-image: url(block.jpg);
+    background-size: cover;
 
 }
 
 .blue {
     background-image: url(blueBlock.png);
+    background-size: cover;
 }
 
 .green {
     background-image: url(greenBlock.png);
+    background-size: cover;
+
 }
 
 .orange {
     background-image: url(orangeBlock.png);
+    background-size: cover;
+
 }
 
 .purple {
     background-image: url(purpleBlock.png);
+    background-size: cover;
+
 }
 
 .red {
     background-image: url(redBlock.png);
+    background-size: cover;
+
 }
 
 .cyan {
     background-image: url(cyanBlock.png);
+    background-size: cover;
+
 }
 
 .yellow {
     background-image: url(yellowBlock.png);
+    background-size: cover;
+
 }
 
-#score {
-    color: #87d76f;
-    font-size: 2em;
-    text-align: center;
-    font-family: 'Pixelify Sans', sans-serif;
-}
 
 
 .fixed {
@@ -77,6 +86,8 @@ body {
     background-image: url(border.png);
     object-fit: contain;
     background-position: center;
+    background-size: cover;
+
 }
 
 h1 {
@@ -92,6 +103,9 @@ h1 {
 }
 
 h2 {
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 2em;
+
     color: #f6fd3f;
     position: absolute;
     text-align: center;
@@ -99,12 +113,20 @@ h2 {
     left: 10%;
 }
 
-.pauser{
+#score {
+    color: #87d76f;
+    font-size: 1.5em;
+    text-align: center;
+    font-family: 'Pixelify Sans', sans-serif;
+}
+
+.pauser {
     display: flex;
     position: absolute;
     top: 15%;
     left: 10%;
 }
+
 .container {
     height: 100px;
     width: 100px;
@@ -112,8 +134,9 @@ h2 {
 }
 
 .centered {
-    width: 100px;
-    height: 100px;
+    background-color: transparent;
+    width: 60px;
+    height: 60px;
     margin: 0;
     position: absolute;
     top: 50%;
@@ -172,20 +195,133 @@ main {
     text-shadow: none;
 }
 
-.pause{
-    background-image: url(pause.png) ;
+.pause {
+    background-image: url(pause.png);
+    background-repeat: no-repeat;
+    background-position: center;
 }
-.play{
-    background-image: url(play.png) ;
+
+.play {
+    background-image: url(resume.png);
+    background-repeat: no-repeat;
+    background-position: center;
+
+
 }
+
 #start-button {
     /* color: #87d76f;
     border: none;
     cursor: pointer; */
 }
 
-@media (max-width: 500px) {
+@media (min-width: 830px) and (max-width: 1300px) {
+    #score {
+        display: block;
+    }
+
+    h2{
+        left: auto;
+        top: 40%;
+        right: 15%;
+    }
+}
+
+@media (max-width: 830px) {
+    #tetris {
+        width: 300px;
+        height: 525px;
+    }
+
+    #tetris div {
+        width: 25px;
+        height: 25px;
+    }   
+
+    #next-tetris {
+         width: 100px;
+         height: 100px;
+    }
+
+    #next-tetris div {
+        width: 20px;
+        height: 20px;
+    }
+
+    .pauser{
+        position: absolute;
+        background-size: cover;
+        top: 30%;
+        right: 7%;
+        left: auto;
+    }
+
+    #score {
+        display: block;
+    }
+
+    h2{
+        font-size: 1.5em;
+        left: auto;
+        top: 40%;
+        right: 10%;
+    }
+
+    h1{
+        font-size: 4em;
+    }
     .moveButtons {
+        margin: 10%;
         visibility: visible;
+    }
+
+}
+
+@media (max-width: 500px) {
+    #tetris {
+        width: 240px;
+        height: 420px;
+    }
+ 
+    #tetris div {
+        width: 20px;
+        height: 20px;
+    }
+
+    #next-tetris {
+        width: 80px;
+        height: 80px;
+    }
+
+    #next-tetris div {
+        width: 16px;
+        height: 16px;
+    }
+    .moveButtons {
+        margin: 10%;
+        visibility: visible;
+    }
+
+    #score {
+        display: block;
+    }
+
+    .pauser{
+        position: absolute;
+        background-size: cover;
+        top: 30%;
+        right: 7%;
+        left: auto;
+    }
+
+    h2{
+        font-size: 1.5em;
+        left: auto;
+        top: 40%;
+        right: 10%;
+    }
+
+    h1{
+        font-size: 3em;
     }
 }
