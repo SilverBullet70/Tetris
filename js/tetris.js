@@ -61,6 +61,8 @@ const TETROMINOES = [I_TETROMINO, O_TETROMINO, T_TETROMINO, J_TETROMINO, L_TETRO
 
 const STARTING_POSITION = 4;
 
+var GAME_OVER = false;
+
 var currentPosition = STARTING_POSITION;
 var currentTetromino = getRandomTetromino();
 var currentRotation = getRandomRotation();
@@ -187,7 +189,7 @@ $(document).ready(function () {
 
 
     $(document).keydown(function (e) {
-        if ($("#pause-button").hasClass("pause")) {
+        if ($("#pause-button").hasClass("pause") && !GAME_OVER) {
             switch (e.which) {
                 case 37: // left
                     moveLeft();
@@ -306,6 +308,8 @@ function isEnd() {
         addColor(currentTetromino);
         if (squares[currentPosition].hasClass("fixed") || squares[currentPosition + CANVAS_WIDTH].hasClass("fixed")) {
             clearInterval(interval);
+            GAME_OVER = true;
+            alert("Game Over :(\nYour score is: " + score + "\nRefresh to play again!");
         }
         return;
     }

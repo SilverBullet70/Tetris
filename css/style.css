@@ -2,7 +2,7 @@ html {
     background-image: url(../assets/background.png);
     margin: 0;
     max-height: 100vh;
-    ;
+    overflow: hidden;
 }
 
 body {
