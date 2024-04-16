@@ -1,7 +1,8 @@
 html {
-    background-image: url(Browser\ Games\ -\ Nealfun\ Games\ -\ 99\ Accuracy\ Background.png);
+    background-image: url(../assets/background.png);
     margin: 0;
-    height: 100vh;
+    max-height: 100vh;
+    ;
 }
 
 body {
@@ -21,55 +22,52 @@ body {
 #tetris div {
     width: 30px;
     height: 30px;
-    /* background-image: url(grid.png); */
-
-
 }
 
 .block {
 
-    background-image: url(block.jpg);
+    background-image: url(../assets/block.jpg);
     background-size: cover;
 
 }
 
 .blue {
-    background-image: url(blueBlock.png);
+    background-image: url(../assets/blueBlock.png);
     background-size: cover;
 }
 
 .green {
-    background-image: url(greenBlock.png);
+    background-image: url(../assets/greenBlock.png);
     background-size: cover;
 
 }
 
 .orange {
-    background-image: url(orangeBlock.png);
+    background-image: url(../assets/orangeBlock.png);
     background-size: cover;
 
 }
 
 .purple {
-    background-image: url(purpleBlock.png);
+    background-image: url(../assets/purpleBlock.png);
     background-size: cover;
 
 }
 
 .red {
-    background-image: url(redBlock.png);
+    background-image: url(../assets/redBlock.png);
     background-size: cover;
 
 }
 
 .cyan {
-    background-image: url(cyanBlock.png);
+    background-image: url(../assets/cyanBlock.png);
     background-size: cover;
 
 }
 
 .yellow {
-    background-image: url(yellowBlock.png);
+    background-image: url(../assets/yellowBlock.png);
     background-size: cover;
 
 }
@@ -83,7 +81,7 @@ body {
 .border {
     filter: brightness(100%);
     background-color: transparent;
-    background-image: url(border.png);
+    background-image: url(../assets/border.png);
     object-fit: contain;
     background-position: center;
     background-size: cover;
@@ -184,36 +182,62 @@ main {
     cursor: pointer;
 }
 
-.moveButtons button:hover {
+/* .moveButtons button:hover {
     text-shadow: 0px 2px 3px rgb(0, 0, 0);
     -webkit-background-clip: text;
     -moz-background-clip: text;
     background-clip: text;
-}
+} */
 
 .moveButtons button:active {
-    text-shadow: none;
+    box-shadow: 0 0 5px red;
+    text-shadow: #f6fd3f;
 }
 
 .pause {
-    background-image: url(pause.png);
+    background-image: url(../assets/pause.png);
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .play {
-    background-image: url(resume.png);
+    background-image: url(../assets/resume.png);
     background-repeat: no-repeat;
     background-position: center;
 
 
 }
 
-#start-button {
-    /* color: #87d76f;
-    border: none;
-    cursor: pointer; */
+#right-button, #left-button, #down-button, #up-button{
+    
+    background-image: url(../assets/arrow.png);
+    background-size: contain;
+    background-repeat: no-repeat;
 }
+
+#right-button{
+    width: 60px;
+    height: 50px;
+}
+
+#left-button{
+    width: 60px;
+    height: 50px;
+    transform: rotate(180deg);
+}
+
+#down-button{
+    height: 60px;
+    width: 50px;
+    transform: rotate(90deg);
+}
+
+#up-button{
+    height: 60px;
+    width: 50px;
+    transform: rotate(-90deg);
+}
+
 
 @media (min-width: 830px) and (max-width: 1300px) {
     #score {

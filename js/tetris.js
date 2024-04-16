@@ -96,7 +96,7 @@ function updateNext() {
     });
     TETROMINOES[next][currentRotation].forEach((i) => {
 
-        i = Math.floor(i / CANVAS_WIDTH) * NEXT_CANVAS_WIDTH + (i % CANVAS_WIDTH) -1 + NEXT_CANVAS_WIDTH;
+        i = Math.floor(i / CANVAS_WIDTH) * NEXT_CANVAS_WIDTH + (i % CANVAS_WIDTH) - 1 + NEXT_CANVAS_WIDTH;
         nextSquares[i + 2].addClass(COLORES[next]);
     });
 
@@ -160,12 +160,12 @@ $(document).ready(function () {
         if ($("#pause-button").hasClass("play")) {
             startMovement();
         }
-        else if ($("#pause-button").hasClass("pause")){
+        else if ($("#pause-button").hasClass("pause")) {
             stopMovement();
         }
         $("#pause-button").toggleClass("pause");
         $("#pause-button").toggleClass("play");
-        
+
     });
 
 
@@ -187,27 +187,29 @@ $(document).ready(function () {
 
 
     $(document).keydown(function (e) {
-        switch (e.which) {
-            case 37: // left
-                moveLeft();
-                break;
+        if ($("#pause-button").hasClass("pause")) {
+            switch (e.which) {
+                case 37: // left
+                    moveLeft();
+                    break;
 
-            case 38: // up
-                changeRotation();
-                break;
+                case 38: // up
+                    changeRotation();
+                    break;
 
-            case 39: // right
-                moveRight();
-                break;
+                case 39: // right
+                    moveRight();
+                    break;
 
-            case 40: // down
-                moveDown();
-                break;
+                case 40: // down
+                    moveDown();
+                    break;
 
-            default:
-                return; // exit this handler for other keys
+                default:
+                    return; // exit this handler for other keys
+            }
+            e.preventDefault(); // prevent the default action (scroll / move caret)
         }
-        e.preventDefault(); // prevent the default action (scroll / move caret)
     });
 
 });
@@ -266,7 +268,7 @@ function isRightFixed() {
         }
     });
 
-    
+
     return flag;
 
 }
@@ -326,7 +328,7 @@ function moveDown() {
     undraw();
     currentPosition += CANVAS_WIDTH;
     draw();
-    
+
 
 }
 
